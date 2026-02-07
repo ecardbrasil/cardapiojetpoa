@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin | Jetpoa</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <main class="container">
+    <section id="login-view" class="card">
+      <h1>Admin Jetpoa</h1>
+      <p>Entre para gerenciar o cardapio.</p>
+      <form id="login-form" class="grid">
+        <label>E-mail
+          <input id="login-email" type="email" required>
+        </label>
+        <label>Senha
+          <input id="login-pass" type="password" required>
+        </label>
+        <button type="submit">Entrar</button>
+      </form>
+      <small>Use um usuario criado no Supabase Auth.</small>
+    </section>
+
+    <section id="admin-view" class="hidden">
+      <header class="card topbar">
+        <h1>Painel de Produtos</h1>
+        <div class="actions">
+          <button id="logout" type="button">Sair</button>
+        </div>
+      </header>
+
+      <section class="card">
+        <h2 id="form-title">Novo produto</h2>
+        <form id="product-form" class="grid">
+          <input id="product-id" type="hidden">
+          <label>Categoria
+            <input id="category" type="text" required>
+          </label>
+          <label>Nome
+            <input id="name" type="text" required>
+          </label>
+          <label>Descricao
+            <input id="description" type="text">
+          </label>
+          <label>Preco (inteiro)
+            <input id="price" type="number" min="1" step="1" required>
+          </label>
+          <label>Ordem
+            <input id="ordem" type="number" min="0" step="1" value="0" required>
+          </label>
+          <label class="inline"><input id="em-estoque" type="checkbox" checked> Em estoque</label>
+          <label class="inline"><input id="ativo" type="checkbox" checked> Ativo</label>
+          <div class="actions">
+            <button type="submit">Salvar</button>
+            <button id="cancel-edit" type="button" class="secondary">Cancelar edicao</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Produtos</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Categoria</th>
+                <th>Produto</th>
+                <th>Preco</th>
+                <th>Estoque</th>
+                <th>Ativo</th>
+                <th>Acoes</th>
+              </tr>
+            </thead>
+            <tbody id="products-tbody"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../supabase-config.js" defer></script>
+  <script src="admin.js" defer></script>
+</body>
+</html>
