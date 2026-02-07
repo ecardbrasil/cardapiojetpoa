@@ -57,6 +57,34 @@ Entregar uma experiência mobile extremamente leve para clientes acessando via Q
 4. Incluir dados iniciais dos produtos.
 5. Rodar auditoria Lighthouse e ajustar gargalos.
 
+## Atualizações recentes do projeto
+### Cardápio público
+- Popup de detalhes por item implementado.
+- Correção do botão `X` do popup para fechamento confiável.
+- Inclusão de imagem padrão para itens sem foto.
+- Exibição de imagem no card e no popup de detalhes.
+- Fallback local mantido caso leitura do Supabase falhe.
+
+### Dashboard admin
+- Melhorias de UX: feedback de ações, resumo com métricas e tabela mais clara.
+- Busca por nome e filtro por categoria.
+- Campo de categoria convertido para dropdown.
+- Botão para adicionar nova categoria diretamente no formulário.
+- Upload de foto no cadastro/edição de produto.
+- Preview da foto e remoção de imagem no formulário.
+- Drag-and-drop para reordenar itens da lista.
+- Drag-and-drop aprimorado com alça dedicada e indicador visual de posição.
+
+### Supabase
+- Integração com tabela `products` ativa no menu público e no admin.
+- Estrutura de Storage adicionada para fotos de produto (`supabase/storage.sql`).
+- Políticas de Storage configuradas para leitura pública e escrita autenticada.
+- Guia de setup atualizado para incluir etapa de Storage.
+
+### Deploy
+- Projeto publicado em produção na Vercel.
+- Estratégia de cache configurada para performance com atualização rápida de HTML.
+
 ## Plano em partes pequenas
 ### Fase 1 - Base pública do cardápio (rápida)
 1. Criar estrutura inicial dos arquivos (`index.html`, `styles.css`, `script.js`).
@@ -88,6 +116,9 @@ Instrução de uso: atualizar este checklist a cada avanço, mudando `[ ]` para 
 - [x] Arquivos base criados (`index.html`, `styles.css`, `script.js`).
 - [x] Layout mobile-first implementado.
 - [x] Produtos de exemplo cadastrados.
+- [x] Popup de detalhes por item implementado.
+- [x] Botão `X` do popup corrigido.
+- [x] Fallback de imagem padrão nos produtos implementado.
 - [ ] Teste de usabilidade em celular realizado.
 - [ ] Performance alvo validada no Lighthouse.
 
@@ -99,6 +130,12 @@ Instrução de uso: atualizar este checklist a cada avanço, mudando `[ ]` para 
 - [x] Integração admin -> menu público validada.
 - [x] Estrutura SQL base para Supabase criada.
 - [x] Integração frontend com Supabase implementada.
+- [x] Busca e filtro de produtos no admin implementados.
+- [x] Dropdown de categoria + adicionar nova categoria implementados.
+- [x] Upload e preview de imagem no formulário admin implementados.
+- [x] Estrutura de Storage no Supabase adicionada (`supabase/storage.sql`).
+- [x] Reordenação de produtos por drag-and-drop implementada.
+- [x] Drag-and-drop aprimorado com alça e indicador de drop.
 
 ### Bloco D - Publicação
 - [x] Deploy em CDN concluído.

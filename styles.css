@@ -134,6 +134,17 @@ h1 {
   padding: 0.9rem;
   box-shadow: 0 8px 20px rgba(15, 109, 117, 0.05);
   cursor: pointer;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.menu-thumb {
+  width: 100%;
+  height: 144px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #f1ede3;
 }
 
 .menu-header {
@@ -226,6 +237,16 @@ body.modal-open {
 .item-modal-title {
   margin: 0 2rem 0.35rem 0;
   font-size: 1.25rem;
+}
+
+.item-modal-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-bottom: 0.75rem;
+  background: #f1ede3;
 }
 
 .item-modal-price {
