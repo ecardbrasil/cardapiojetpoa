@@ -8,7 +8,8 @@
 Executar nesta ordem:
 1. `supabase/schema.sql`
 2. `supabase/policies.sql`
-3. `supabase/seed.sql` (opcional, apenas dados iniciais)
+3. `supabase/storage.sql`
+4. `supabase/seed.sql` (opcional, apenas dados iniciais)
 
 ## 3) Criar usuario admin (obrigatorio)
 1. Acessar `Authentication > Users`.
@@ -28,18 +29,25 @@ Executar nesta ordem:
 - `created_at` (timestamptz)
 - `updated_at` (timestamptz)
 
-## 5) Regras aplicadas
+## 5) Storage de imagens
+- Bucket: `product-images`
+- Visibilidade: publica
+- Limite: 2MB
+- Tipos aceitos: JPG, PNG, WebP, AVIF
+
+## 6) Regras aplicadas
 - Menu publico (anon): so le itens `ativo = true` e `em_estoque = true`.
-- Admin autenticado: leitura e escrita completas.
+- Admin autenticado: leitura e escrita completas em `products`.
+- Imagens: leitura publica e upload/edicao/remocao por usuarios autenticados.
 
-## 6) Integracao atual do front
+## 7) Integracao atual do front
 - Publico (`index.html`): le do Supabase e usa fallback local se der erro.
-- Admin (`admin/index.html`): login com Supabase Auth + CRUD na tabela `products`.
+- Admin (`admin/index.html`): login com Supabase Auth + CRUD na tabela `products` + upload de foto para Supabase Storage.
 
-## 7) Arquivo de configuracao
+## 8) Arquivo de configuracao
 Preencher em `supabase-config.js`:
 - `SUPABASE_URL`
 - `SUPABASE_PUBLISHABLE_KEY`
 
-## 8) Observacao importante
+## 9) Observacao importante
 A chave publishable pode ficar no frontend. Nunca exponha `service_role` no cliente.

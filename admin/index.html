@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin | Jetpoa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="admin.css">
 </head>
 <body>
@@ -25,24 +28,58 @@
 
     <section id="admin-view" class="hidden">
       <header class="card topbar">
-        <h1>Painel de Produtos</h1>
+        <div>
+          <h1>Painel de Produtos</h1>
+          <p class="muted">Controle rapido de estoque e visibilidade do cardapio.</p>
+        </div>
         <div class="actions">
+          <button id="refresh-table" type="button" class="secondary">Atualizar</button>
           <button id="logout" type="button">Sair</button>
         </div>
       </header>
 
+      <p id="feedback" class="feedback hidden" role="status" aria-live="polite"></p>
+
+      <section class="stats">
+        <article class="card stat-card">
+          <p>Total</p>
+          <strong id="stat-total">0</strong>
+        </article>
+        <article class="card stat-card">
+          <p>Ativos</p>
+          <strong id="stat-active">0</strong>
+        </article>
+        <article class="card stat-card">
+          <p>Em estoque</p>
+          <strong id="stat-stock">0</strong>
+        </article>
+        <article class="card stat-card">
+          <p>Sem estoque</p>
+          <strong id="stat-no-stock">0</strong>
+        </article>
+      </section>
+
       <section class="card">
         <h2 id="form-title">Novo produto</h2>
-        <form id="product-form" class="grid">
+        <form id="product-form" class="grid form-grid">
           <input id="product-id" type="hidden">
+          <input id="image-url" type="hidden">
           <label>Categoria
-            <input id="category" type="text" required>
+            <select id="category" required>
+              <option value="">Selecione uma categoria</option>
+            </select>
           </label>
+          <div class="category-add">
+            <label>Nova categoria
+              <input id="new-category-input" type="text" placeholder="Ex.: Drinks especiais">
+            </label>
+            <button id="add-category-btn" type="button" class="secondary">Adicionar categoria</button>
+          </div>
           <label>Nome
-            <input id="name" type="text" required>
+            <input id="name" type="text" placeholder="Nome do produto" required>
           </label>
           <label>Descricao
-            <input id="description" type="text">
+            <input id="description" type="text" placeholder="Descricao curta">
           </label>
           <label>Preco (inteiro)
             <input id="price" type="number" min="1" step="1" required>
@@ -50,6 +87,16 @@
           <label>Ordem
             <input id="ordem" type="number" min="0" step="1" value="0" required>
           </label>
+          <div class="image-upload">
+            <label>Foto do produto
+              <input id="image-file" type="file" accept="image/*">
+            </label>
+            <p class="muted">Formatos: JPG, PNG, WebP ou AVIF (max. 2MB).</p>
+            <div id="image-preview-wrap" class="image-preview-wrap hidden">
+              <img id="image-preview" class="image-preview" alt="Preview da foto do produto">
+              <button id="remove-image-btn" type="button" class="danger">Remover imagem</button>
+            </div>
+          </div>
           <label class="inline"><input id="em-estoque" type="checkbox" checked> Em estoque</label>
           <label class="inline"><input id="ativo" type="checkbox" checked> Ativo</label>
           <div class="actions">
@@ -61,13 +108,31 @@
 
       <section class="card">
         <h2>Produtos</h2>
+        <p class="muted">Arraste pelo icone lateral para reordenar itens na mesma categoria.</p>
+        <div class="toolbar">
+          <label class="toolbar-field">
+            <span>Buscar</span>
+            <input id="search-input" type="search" placeholder="Nome do produto">
+          </label>
+          <label class="toolbar-field">
+            <span>Categoria</span>
+            <select id="category-filter">
+              <option value="">Todas</option>
+            </select>
+          </label>
+          <div class="actions">
+            <button id="clear-filters" type="button" class="secondary">Limpar filtros</button>
+          </div>
+        </div>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
+                <th>Mover</th>
                 <th>Categoria</th>
                 <th>Produto</th>
                 <th>Preco</th>
+                <th>Ordem</th>
                 <th>Estoque</th>
                 <th>Ativo</th>
                 <th>Acoes</th>
@@ -76,6 +141,7 @@
             <tbody id="products-tbody"></tbody>
           </table>
         </div>
+        <p id="table-empty" class="table-empty hidden">Nenhum produto encontrado com os filtros atuais.</p>
       </section>
     </section>
   </main>
