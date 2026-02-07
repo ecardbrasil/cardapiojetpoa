@@ -5,6 +5,7 @@ let publicItems = [];
 let categories = [];
 let activeCategory = "";
 let modalElements = null;
+let modalCloseCooldownUntil = 0;
 
 function formatPrice(value) {
   return value.toLocaleString("pt-BR", {
@@ -105,9 +106,16 @@ function ensureModal() {
   const description = overlay.querySelector(".item-modal-description");
 
   function closeModal() {
+    modalCloseCooldownUntil = Date.now() + 250;
     overlay.hidden = true;
     document.body.classList.remove("modal-open");
   }
+
+  closeButton.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    closeModal();
+  });
 
   closeButton.addEventListener("click", (event) => {
     event.preventDefault();
@@ -118,17 +126,21 @@ function ensureModal() {
   modalPanel.addEventListener("click", (event) => {
     event.stopPropagation();
   });
+
   overlay.addEventListener("click", (event) => {
-    const closeTrigger = event.target.closest(".item-modal-close");
+    const target = event.target;
+    const closeTrigger = target instanceof Element ? target.closest(".item-modal-close") : null;
     if (closeTrigger) {
       closeModal();
       return;
     }
+
     if (event.target === overlay) closeModal();
   });
 
   overlay.addEventListener("touchend", (event) => {
-    const closeTrigger = event.target.closest(".item-modal-close");
+    const target = event.target;
+    const closeTrigger = target instanceof Element ? target.closest(".item-modal-close") : null;
     if (closeTrigger) {
       event.preventDefault();
       closeModal();
@@ -144,6 +156,8 @@ function ensureModal() {
 }
 
 function openItemModal(item) {
+  if (Date.now() < modalCloseCooldownUntil) return;
+
   const modal = ensureModal();
   modal.title.textContent = item.name;
   modal.price.textContent = formatPrice(item.price);
