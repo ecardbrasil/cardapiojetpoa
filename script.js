@@ -4,6 +4,7 @@ const menuContent = document.getElementById("menu-content");
 let publicItems = [];
 let categories = [];
 let activeCategory = "";
+let modalElements = null;
 
 function formatPrice(value) {
   return value.toLocaleString("pt-BR", {
@@ -73,8 +74,82 @@ function renderItems() {
       <p class="menu-description">${item.description || ""}</p>
     `;
 
+    card.addEventListener("click", () => openItemModal(item));
+
     menuContent.appendChild(card);
   });
+}
+
+function ensureModal() {
+  if (modalElements) return modalElements;
+
+  const overlay = document.createElement("div");
+  overlay.className = "item-modal-overlay";
+  overlay.hidden = true;
+
+  overlay.innerHTML = `
+    <section class="item-modal" role="dialog" aria-modal="true" aria-labelledby="item-modal-title">
+      <button class="item-modal-close" type="button" aria-label="Fechar modal">&times;</button>
+      <h3 id="item-modal-title" class="item-modal-title"></h3>
+      <p class="item-modal-price"></p>
+      <p class="item-modal-description"></p>
+    </section>
+  `;
+
+  document.body.appendChild(overlay);
+
+  const closeButton = overlay.querySelector(".item-modal-close");
+  const modalPanel = overlay.querySelector(".item-modal");
+  const title = overlay.querySelector(".item-modal-title");
+  const price = overlay.querySelector(".item-modal-price");
+  const description = overlay.querySelector(".item-modal-description");
+
+  function closeModal() {
+    overlay.hidden = true;
+    document.body.classList.remove("modal-open");
+  }
+
+  closeButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    closeModal();
+  });
+
+  modalPanel.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+  overlay.addEventListener("click", (event) => {
+    const closeTrigger = event.target.closest(".item-modal-close");
+    if (closeTrigger) {
+      closeModal();
+      return;
+    }
+    if (event.target === overlay) closeModal();
+  });
+
+  overlay.addEventListener("touchend", (event) => {
+    const closeTrigger = event.target.closest(".item-modal-close");
+    if (closeTrigger) {
+      event.preventDefault();
+      closeModal();
+    }
+  }, { passive: false });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !overlay.hidden) closeModal();
+  });
+
+  modalElements = { overlay, title, price, description };
+  return modalElements;
+}
+
+function openItemModal(item) {
+  const modal = ensureModal();
+  modal.title.textContent = item.name;
+  modal.price.textContent = formatPrice(item.price);
+  modal.description.textContent = item.description || "Sem descricao.";
+  modal.overlay.hidden = false;
+  document.body.classList.add("modal-open");
 }
 
 function renderEmptyState() {

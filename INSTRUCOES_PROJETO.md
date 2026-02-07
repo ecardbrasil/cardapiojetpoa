@@ -101,7 +101,7 @@ Instrução de uso: atualizar este checklist a cada avanço, mudando `[ ]` para 
 - [x] Integração frontend com Supabase implementada.
 
 ### Bloco D - Publicação
-- [ ] Deploy em CDN concluído.
+- [x] Deploy em CDN concluído.
 - [x] Cache configurado.
 - [ ] QR Code gerado e testado.
 - [ ] Revisão final de conteúdo e preços feita.
